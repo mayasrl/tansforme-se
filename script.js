@@ -5,32 +5,43 @@ let indiceAtual = 0;
 
 function mostrarSlide(indice) {
     slides.forEach((slide) => slide.classList.remove("ativo"));
-    slides[indice].classList.add("ativo");
+
+    if (slides.length > 0) {
+        slides[indice].classList.add("ativo");
+    }
 }
 
-botaoProximo.addEventListener("click", () => {
-    indiceAtual++;
-    if (indiceAtual >= slides.length) {
-        indiceAtual = 0;
-    }
-    mostrarSlide(indiceAtual);
-});
+if (botaoProximo && botaoAnterior && slides.length > 0) {
+    botaoProximo.addEventListener("click", () => {
+        indiceAtual++;
 
-botaoAnterior.addEventListener("click", () => {
-    indiceAtual--;
-    if (indiceAtual < 0) {
-        indiceAtual = slides.length - 1;
-    }
-    mostrarSlide(indiceAtual);
-});
+        if (indiceAtual >= slides.length) {
+            indiceAtual = 0;
+        }
 
-setInterval(() => {
-    indiceAtual++;
-    if (indiceAtual >= slides.length) {
-        indiceAtual = 0;
-    }
-    mostrarSlide(indiceAtual);
-}, 5000);
+        mostrarSlide(indiceAtual);
+    });
+
+    botaoAnterior.addEventListener("click", () => {
+        indiceAtual--;
+
+        if (indiceAtual < 0) {
+            indiceAtual = slides.length - 1;
+        }
+
+        mostrarSlide(indiceAtual);
+    });
+
+    setInterval(() => {
+        indiceAtual++;
+
+        if (indiceAtual >= slides.length) {
+            indiceAtual = 0;
+        }
+
+        mostrarSlide(indiceAtual);
+    }, 5000);
+}
 
 const perguntas = document.querySelectorAll(".faq-pergunta");
 
@@ -39,12 +50,21 @@ perguntas.forEach((pergunta) => {
         const resposta = pergunta.nextElementSibling;
         const aberta = resposta.style.display === "block";
 
-    document.querySelectorAll(".faq-resposta").forEach((item) => {
-        item.style.display = "none";
-    });
+        document.querySelectorAll(".faq-resposta").forEach((item) => {
+            item.style.display = "none";
+        });
 
-    if (!aberta) {
-        resposta.style.display = "block";
-    }
+        if (!aberta) {
+            resposta.style.display = "block";
+        }
     });
 });
+
+const menuMobile = document.getElementById("menu-mobile");
+const menu = document.getElementById("menu");
+
+if (menuMobile && menu) {
+    menuMobile.addEventListener("click", () => {
+        menu.classList.toggle("aberto");
+    });
+}
